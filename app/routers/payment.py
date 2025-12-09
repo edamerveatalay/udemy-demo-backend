@@ -1,11 +1,16 @@
 from fastapi import APIRouter, HTTPException, Header
-from pydantic import BaseModel
 import json
 import uuid
 import threading
 import time
 
 from app.utils.security import get_current_user, load_db
+from app.schemas.payment_schemas import (
+    PaymentCreateRequestSchema,
+    PaymentConfirmRequestSchema,
+    PaymentCreateResponseSchema,
+    PaymentConfirmResponseSchema,
+)
 
 router = APIRouter(prefix="/payment", tags=["Payment"])
 
@@ -15,17 +20,8 @@ def save_db(data):
         json.dump(data, f, indent=2)
 
 
-class PaymentCreateRequest(BaseModel):
-    course_id: int
-
-
-class PaymentConfirmRequest(BaseModel):
-    payment_id: str
-
-
 def auto_confirm(payment_id: str):
     time.sleep(1)
-
     db = load_db()
     payment = next(
         (p for p in db.get("payments", []) if p["payment_id"] == payment_id), None
@@ -47,6 +43,7 @@ def auto_confirm(payment_id: str):
 
 @router.post(
     "/create",
+    response_model=PaymentCreateResponseSchema,
     summary="Create Payment (Demo)",
     description=(
         "Kullanıcı için ödeme kaydı oluşturur.\n\n"
@@ -54,7 +51,7 @@ def auto_confirm(payment_id: str):
         "Manuel confirm için /payment/confirm endpoint'i kullanılabilir."
     ),
 )
-def create_payment(body: PaymentCreateRequest, authorization: str = Header(None)):
+def create_payment(body: PaymentCreateRequestSchema, authorization: str = Header(None)):
     user = get_current_user(authorization)
     db = load_db()
 
@@ -89,6 +86,7 @@ def create_payment(body: PaymentCreateRequest, authorization: str = Header(None)
 
 @router.post(
     "/confirm",
+    response_model=PaymentConfirmResponseSchema,
     summary="Confirm Payment (Manual, optional)",
     description=(
         "Ödemeyi manuel olarak confirm etmek için kullanılır.\n"
@@ -97,7 +95,7 @@ def create_payment(body: PaymentCreateRequest, authorization: str = Header(None)
         "Bu endpoint test veya özel senaryolar için opsiyoneldir."
     ),
 )
-def confirm_payment(body: PaymentConfirmRequest):
+def confirm_payment(body: PaymentConfirmRequestSchema):
     db = load_db()
     payment = next(
         (p for p in db.get("payments", []) if p["payment_id"] == body.payment_id), None

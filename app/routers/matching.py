@@ -1,14 +1,9 @@
 from fastapi import APIRouter, HTTPException, Header
-from pydantic import BaseModel
+from app.schemas.matching_schemas import LiveClassRequestSchema, LiveClassResponseSchema
+from app.utils.security import get_current_user, load_db
 import json
 
-from app.utils.security import get_current_user, load_db
-
 router = APIRouter(prefix="/live", tags=["Live Class Matching"])
-
-
-class LiveClassRequest(BaseModel):
-    topic: str
 
 
 def save_db(data):
@@ -16,8 +11,8 @@ def save_db(data):
         json.dump(data, f, indent=2)
 
 
-@router.post("/request")
-def request_live_class(body: LiveClassRequest, authorization: str = Header(None)):
+@router.post("/request", response_model=LiveClassResponseSchema)
+def request_live_class(body: LiveClassRequestSchema, authorization: str = Header(None)):
     user = get_current_user(authorization)
 
     if user["role"] != "user":

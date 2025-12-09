@@ -1,5 +1,9 @@
 from fastapi import APIRouter, HTTPException, Header
 from app.utils.security import get_current_user, load_db
+from app.schemas.instructor_schemas import (
+    NotificationsResponse,
+    ClearNotificationsResponse,
+)
 import json
 
 router = APIRouter(prefix="/instructor", tags=["Instructor"])
@@ -10,7 +14,7 @@ def save_db(data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
-@router.get("/notifications")
+@router.get("/notifications", response_model=NotificationsResponse)
 def notifications(authorization: str = Header(None)):
     """
     Eğitmenin bildirim listesini döner.
@@ -19,14 +23,13 @@ def notifications(authorization: str = Header(None)):
     if user.get("role") != "instructor":
         raise HTTPException(status_code=403, detail="Sadece eğitmenler erişebilir")
     db = load_db()
-    # DB'den güncel eğitmen objesini al (dosya bazlı olduğu için)
     instr = next((u for u in db["users"] if u["id"] == user["id"]), None)
     if not instr:
         raise HTTPException(status_code=404, detail="Eğitmen bulunamadı")
-    return instr.get("notifications", [])
+    return {"notifications": instr.get("notifications", [])}
 
 
-@router.post("/notifications/clear")
+@router.post("/notifications/clear", response_model=ClearNotificationsResponse)
 def clear_notifications(authorization: str = Header(None)):
     """
     Eğitmenin bildirimlerini temizler.

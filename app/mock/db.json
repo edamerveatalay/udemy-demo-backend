@@ -23,7 +23,10 @@
       "name": "Admin",
       "email": "admin@example.com",
       "password": "admin123",
-      "role": "admin"
+      "role": "admin",
+      "purchased_courses": [
+        2
+      ]
     }
   ],
   "courses": [
@@ -50,6 +53,11 @@
     },
     {
       "user_id": 1,
+      "course_id": 2,
+      "status": "success"
+    },
+    {
+      "user_id": 3,
       "course_id": 2,
       "status": "success"
     }
@@ -96,6 +104,12 @@
     {
       "payment_id": "f647170b-ff5a-4890-ae55-51f1847266d6",
       "user_id": 1,
+      "course_id": 2,
+      "status": "success"
+    },
+    {
+      "payment_id": "387ce32c-d438-4a85-9ade-db787baba81f",
+      "user_id": 3,
       "course_id": 2,
       "status": "success"
     }

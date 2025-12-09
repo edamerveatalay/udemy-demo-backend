@@ -1,18 +1,11 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-import json
-
 from app.utils.security import create_fake_token, load_db
+from app.schemas.auth_schemas import LoginRequest, LoginResponse
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
-class LoginRequest(BaseModel):
-    email: str
-    password: str
-
-
-@router.post("/login")
+@router.post("/login", response_model=LoginResponse)
 def login(data: LoginRequest):
     db = load_db()
 

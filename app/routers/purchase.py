@@ -1,14 +1,10 @@
 from fastapi import APIRouter, HTTPException, Header
-from pydantic import BaseModel
 import json
 
 from app.utils.security import get_current_user, load_db
+from app.schemas.purchase_schemas import PurchaseRequestSchema, PurchaseResponseSchema
 
 router = APIRouter(prefix="/purchase", tags=["Purchase"])
-
-
-class PurchaseRequest(BaseModel):
-    course_id: int
 
 
 def save_db(data):
@@ -16,8 +12,8 @@ def save_db(data):
         json.dump(data, f, indent=2)
 
 
-@router.post("/")
-def purchase_course(body: PurchaseRequest, authorization: str = Header(None)):
+@router.post("/", response_model=PurchaseResponseSchema)
+def purchase_course(body: PurchaseRequestSchema, authorization: str = Header(None)):
     user = get_current_user(authorization)
     db = load_db()
 
@@ -35,6 +31,9 @@ def purchase_course(body: PurchaseRequest, authorization: str = Header(None)):
             if "purchased_courses" not in u:
                 u["purchased_courses"] = []
             u["purchased_courses"].append(body.course_id)
+
+    if "purchases" not in db:
+        db["purchases"] = []
 
     db["purchases"].append(
         {"user_id": user["id"], "course_id": body.course_id, "status": payment_status}
