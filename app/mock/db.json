@@ -1,0 +1,73 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Ali \u00d6\u011frenci",
+      "email": "ali@example.com",
+      "password": "123456",
+      "role": "user",
+      "purchased_courses": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Ay\u015fe E\u011fitmen",
+      "email": "ayse@example.com",
+      "password": "123456",
+      "role": "instructor"
+    },
+    {
+      "id": 3,
+      "name": "Admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "role": "admin"
+    }
+  ],
+  "courses": [
+    {
+      "id": 1,
+      "title": "Python Dersleri",
+      "description": "S\u0131f\u0131rdan ileri seviye Python e\u011fitimi",
+      "instructor_id": 2,
+      "price": 199.9
+    },
+    {
+      "id": 2,
+      "title": "Mobil Uygulama Geli\u015ftirme",
+      "description": "Flutter ile uygulama geli\u015ftirme",
+      "instructor_id": 2,
+      "price": 249.9
+    }
+  ],
+  "purchases": [
+    {
+      "user_id": 1,
+      "course_id": 1,
+      "status": "success"
+    },
+    {
+      "user_id": 1,
+      "course_id": 2,
+      "status": "success"
+    }
+  ],
+  "live_class_requests": [
+    {
+      "user_id": 1,
+      "instructor_id": 2,
+      "topic": "string",
+      "status": "assigned"
+    }
+  ],
+  "payments": [
+    {
+      "payment_id": "7fb08365-f9cc-4c22-8de4-c616dfa504d0",
+      "user_id": 1,
+      "course_id": 1,
+      "status": "success"
+    }
+  ]
+}
