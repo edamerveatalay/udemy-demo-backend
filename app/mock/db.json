@@ -80,6 +80,24 @@
       "user_id": 1,
       "course_id": 1,
       "status": "success"
+    },
+    {
+      "payment_id": "1cc98771-6c3b-4d54-bedb-7b34ec18f5d6",
+      "user_id": 1,
+      "course_id": 1,
+      "status": "success"
+    },
+    {
+      "payment_id": "7294fc98-c545-4482-b9ce-a223ba7bd98c",
+      "user_id": 1,
+      "course_id": 1,
+      "status": "success"
+    },
+    {
+      "payment_id": "f647170b-ff5a-4890-ae55-51f1847266d6",
+      "user_id": 1,
+      "course_id": 2,
+      "status": "success"
     }
   ]
 }

@@ -32,6 +32,7 @@ def auto_confirm(payment_id: str):
     )
     if not payment:
         return
+
     payment["status"] = "success"
 
     for u in db["users"]:
@@ -44,7 +45,15 @@ def auto_confirm(payment_id: str):
     save_db(db)
 
 
-@router.post("/create")
+@router.post(
+    "/create",
+    summary="Create Payment (Demo)",
+    description=(
+        "Kullanıcı için ödeme kaydı oluşturur.\n\n"
+        "Demo ortamında ödeme kısa bir süre içinde otomatik olarak confirm edilir ve kurs kullanıcıya atanır.\n"
+        "Manuel confirm için /payment/confirm endpoint'i kullanılabilir."
+    ),
+)
 def create_payment(body: PaymentCreateRequest, authorization: str = Header(None)):
     user = get_current_user(authorization)
     db = load_db()
@@ -78,7 +87,16 @@ def create_payment(body: PaymentCreateRequest, authorization: str = Header(None)
     }
 
 
-@router.post("/confirm")
+@router.post(
+    "/confirm",
+    summary="Confirm Payment (Manual, optional)",
+    description=(
+        "Ödemeyi manuel olarak confirm etmek için kullanılır.\n"
+        "Normal kullanıcı akışında /payment/create ile başlatılan ödeme, "
+        "arka planda otomatik olarak confirm edilir.\n"
+        "Bu endpoint test veya özel senaryolar için opsiyoneldir."
+    ),
+)
 def confirm_payment(body: PaymentConfirmRequest):
     db = load_db()
     payment = next(
