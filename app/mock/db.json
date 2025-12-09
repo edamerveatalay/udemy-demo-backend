@@ -68,6 +68,18 @@
       "user_id": 1,
       "course_id": 1,
       "status": "success"
+    },
+    {
+      "payment_id": "16b7c924-9a77-439f-a104-aadd03c6d03d",
+      "user_id": 1,
+      "course_id": 1,
+      "status": "pending"
+    },
+    {
+      "payment_id": "0a271adb-6a88-4b38-9cc2-2efa31681795",
+      "user_id": 1,
+      "course_id": 1,
+      "status": "success"
     }
   ]
 }
