@@ -5,8 +5,8 @@ from fastapi.openapi.utils import get_openapi
 from app.routers import auth, courses, purchase, matching, payment
 from app.routers import users as users_router
 from app.routers import instructor as instructor_router
+from app.routers import admin as admin_router
 
-# Security Scheme (Swagger'da Authorize butonunun çıkması için gerekli)
 security_scheme = HTTPBearer()
 
 app = FastAPI(
@@ -15,16 +15,15 @@ app = FastAPI(
     description="Demo amaçlı FastAPI backend",
 )
 
-# -------------------------
-# Routerlar
-# -------------------------
+
 app.include_router(auth.router)
 app.include_router(courses.router)
 app.include_router(purchase.router)
 app.include_router(matching.router)
-app.include_router(payment.router)  # Payment router eklendi
+app.include_router(payment.router)
 app.include_router(users_router.router)
 app.include_router(instructor_router.router)
+app.include_router(admin_router.router)
 
 
 def custom_openapi():
