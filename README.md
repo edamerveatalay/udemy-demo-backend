@@ -54,7 +54,9 @@ Bu proje, kullanıcı, eğitmen ve admin rolleri ile mini Udemy akışı ve canl
   - `models/` - Veri modelleri
   - `routers/` - Endpoint yönlendirmeleri
   - `controllers/` - İş mantığı ve simülasyon
-- `mock_db.json` - Mock veri tabanı
+  - `schemas/` - Pydantic veri şemaları
+  - `utils/` - Yardımcı fonksiyonlar ve araçlar
+  - `mock_db.json` - Mock veri tabanı
 - `requirements.txt` - Python bağımlılıkları
 - `README.md` - Proje dokümanı
 
